@@ -6,7 +6,6 @@ from db import crud
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from db.base import get_db
-from project.celery import celery_app
 
 
 app = FastAPI()
