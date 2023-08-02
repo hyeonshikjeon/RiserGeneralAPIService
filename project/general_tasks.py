@@ -1,4 +1,4 @@
-from .celery import app
+from .mycelery import app
 
 
 @app.task

@@ -1,7 +1,7 @@
 from celery import Celery
 
 app = Celery('project',
-             broker='amqp://riser_user:riser_pw@localhost:5672//',
+             broker='amqp://riser_user:riser_pw@riserrabbitmq:5672/vhost',
              backend='rpc://',
              include=['project.general_tasks'])
 
