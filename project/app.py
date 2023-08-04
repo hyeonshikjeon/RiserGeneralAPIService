@@ -13,7 +13,7 @@ app = FastAPI()
 
 @app.get(path="/announcement/", response_model=list[schemas.Announcement])
 async def get_announcements(student_id: int, session: Session = Depends(get_db)):
-    task = celery_app.send_task('RiserAcademicAPI.tasks.RiserAcademicAPI.tasks.get_course_list_by_student_id',
+    task = celery_app.send_task('RiserAcademicAPI.tasks.get_course_list_by_student_id',
                                 [101])
     class_id = task.get()
 
