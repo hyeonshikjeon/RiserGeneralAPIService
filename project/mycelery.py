@@ -1,9 +1,9 @@
 from celery import Celery
 
 app = Celery('project',
-             broker='amqp://riser_user:riser_pw@riserrabbitmq:5672/vhost',
-             backend='rpc://',
-             include=['project.general_tasks'])
+             broker='amqp://riser_user:riser_pw@riserrabbitmq:5672',
+             backend='rpc://'
+             )
 
 app.conf.update(
     result_expires=3600

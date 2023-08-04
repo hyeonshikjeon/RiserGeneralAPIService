@@ -6,20 +6,26 @@ from db import crud
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from db.base import get_db
-
+from mycelery import app as celery_app
 
 app = FastAPI()
 
 
 @app.get(path="/announcement/", response_model=list[schemas.Announcement])
-async def get_announcements(class_id: int, session: Session = Depends(get_db)):
+async def get_announcements(student_id: int, session: Session = Depends(get_db)):
+    task = celery_app.send_task('RiserAcademicAPI.tasks.RiserAcademicAPI.tasks.get_course_list_by_student_id',
+                                [101])
+    class_id = task.get()
+
     announcement = []
-    result = session.query(models.Announcements).filter(
-        models.Announcements.class_id == class_id
-    )
-    for r in result:
-        if r.deleted == "0":
-            announcement.append(r)
+
+    for c in class_id:
+        result = session.query(models.Announcements).filter(
+            models.Announcements.class_id == c
+        )
+        for r in result:
+            if r.deleted == "0":
+                announcement.append(r)
     return announcement
 
 
